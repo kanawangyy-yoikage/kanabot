@@ -4797,5 +4797,131 @@ Select Bot Settings:
 		return naze.sendFromOwner(ownerNumber, `Halo sayang, sepertinya ada yang error nih, jangan lupa diperbaiki ya\n\nVersion : *${require('./package.json').version}*\nType : *${m.type || errorKey}*\n\n*Log error:*\n\n` + util.format(e), m, { contextInfo: { isForwarded: true }})
 	}
 }
+case 'tesjadwal': {
+  if (!isCreator) return m.reply(mess.owner)
+  
+  const besok = new Date()
+  besok.setDate(besok.getDate() + 1)
+  const hariKey = _namaHari[besok.getDay()]
+  const jadwal = _jadwalPelajaran[hariKey]
+  
+  if (!jadwal || jadwal.length === 0) {
+    return m.reply(`Besok (${hariKey}) libur, tidak ada jadwal.`)
+  }
+  
+  const barisPelajaran = jadwal.map(j => `🕐 *${j.waktu}* — ${j.mapel}`).join('\n')
+  const displayTanggal = _formatTglJadwal(besok)
+  const jamSekarang = moment.tz(timezone).format('HH:mm')
+  
+  await naze.sendMessage(m.chat, { text: `🌠 *Selamat malam, jam ${jamSekarang}*` })
+  await new Promise(r => setTimeout(r, 1200))
+  await naze.sendMessage(m.chat, { text: `Halo! Sekadar mengingatkan untuk jadwal pelajaran besok, *${displayTanggal}*:\n\n${barisPelajaran}\n\nJangan lupa siapkan buku dan tugasnya ya. Semangat! 💪📚` })
+  
+  m.reply(`✅ Tes selesai! Dikirim ke ${Object.keys(db.groups).length} grup.`)
+}
+break
+// â”€â”€ DATA JADWAL PELAJARAN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
+const _jadwalPelajaran = {
+  senin: [
+    { waktu: '09.30 - 10.30', mapel: 'Bahasa Indonesia',           guru: 'Fairuzabadi, S.Pd' },
+    { waktu: '10.30 - 11.30', mapel: 'Matematika',                  guru: 'Zam Zami, S.Pd' },
+    { waktu: '11.30 - 12.00', mapel: 'Bahasa Jawa',                 guru: 'Eka Sri Ndayanti, S.Pd' },
+    { waktu: '13.00 - 13.30', mapel: 'Bimbingan Konseling',         guru: 'Lintining Tias, S.Pd' },
+    { waktu: '13.30 - 15.00', mapel: 'Mapil (Koding & AI)',         guru: 'Nor Amalia, S.Pd' },
+  ],
+  selasa: [
+    { waktu: '08.00 - 11.00', mapel: 'Dasar-Dasar Teknik Jaringan Komputer & Telekomunikasi', guru: 'Miftakhodin, S.Kom' },
+    { waktu: '12.30 - 15.00', mapel: 'Dasar-Dasar Teknik Jaringan Komputer & Telekomunikasi', guru: 'Feriz Hidayatullah, S.Pd' },
+  ],
+  rabu: [
+    { waktu: '08.00 - 09.00', mapel: 'Bahasa Inggris',                           guru: 'Gita Rianawati, S.Pd' },
+    { waktu: '09.30 - 11.00', mapel: 'Pendidikan Jasmani Olahraga & Kesehatan',  guru: 'Susilo, S.Pd' },
+    { waktu: '11.00 - 12.00', mapel: 'Matematika',                               guru: 'Zam Zami, S.Pd' },
+    { waktu: '12.30 - 13.30', mapel: 'Seni Budaya',                              guru: 'Andika Rizqi Rosida, S.Pd' },
+    { waktu: '13.30 - 15.00', mapel: 'Projek IPAS',                              guru: 'Nur Fatwa, S.Pd' },
+  ],
+  kamis: [
+    { waktu: '08.00 - 09.00', mapel: 'Sejarah',                          guru: 'Lidya Dwi Jayanti, S.Pd' },
+    { waktu: '09.30 - 10.30', mapel: 'Pendidikan Agama & Budi Pekerti',  guru: 'Abdul Mughni, S.Pd.I' },
+    { waktu: '10.30 - 11.30', mapel: 'Bahasa Indonesia',                 guru: 'Fairuzabadi, S.Pd' },
+    { waktu: '11.30 - 13.00', mapel: 'Pendidikan Pancasila/PPKN',        guru: 'Dra. Veronika Sri Sumarsi' },
+    { waktu: '13.30 - 15.00', mapel: 'Informatika',                      guru: 'Agung Eka Maulana, S.T' },
+  ],
+  jumat: [
+    { waktu: '07.00 - 09.00', mapel: 'Kokurikuler',         guru: '-' },
+    { waktu: '10.30 - 11.30', mapel: 'Projek IPAS',         guru: 'Nur Fatwa, S.Pd' },
+    { waktu: '13.00 - 15.30', mapel: 'Ekstra Wajib Pramuka', guru: '-' },
+  ],
+  sabtu:  [],
+  minggu: [],
+}
+
+const _namaHari  = ['minggu','senin','selasa','rabu','kamis','jumat','sabtu']
+const _namaHariD = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']
+const _namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
+
+function _formatTglJadwal(d) {
+  return `${_namaHariD[d.getDay()]}, ${d.getDate()} ${_namaBulan[d.getMonth()]} ${d.getFullYear()}`
+}
+
+// â”€â”€ CRON PENGINGAT SETIAP HARI JAM 18:00 WIB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// node-cron sudah di-require di atas file ini (const cron = require('node-cron'))
+// timezone sudah ada dari settings.js (global.timezone)
+
+cron.schedule('0 18 * * *', async () => {
+  try {
+    // Hitung "besok"
+    const besok = new Date()
+    besok.setDate(besok.getDate() + 1)
+
+    const hariKey = _namaHari[besok.getDay()]
+    const jadwal  = _jadwalPelajaran[hariKey]
+
+    // Kalau besok libur, tidak kirim apa-apa
+    if (!jadwal || jadwal.length === 0) {
+      console.log(`[JadwalReminder] Besok (${hariKey}) libur, tidak mengirim pengingat.`)
+      return
+    }
+
+    // Susun teks jadwal
+    const barisPelajaran = jadwal.map(j => `ðŸ• *${j.waktu}* â€” ${j.mapel}`).join('\n')
+    const displayTanggal = _formatTglJadwal(besok)
+
+    const jamSekarang = moment.tz(timezone).format('HH:mm')
+
+    // Pesan 1 â€” header malam
+    const pesan1 = `ðŸŒ  *Selamat malam, jam ${jamSekarang}*`
+
+    // Pesan 2 â€” detail jadwal
+    const pesan2 =
+`Halo! Sekadar mengingatkan untuk jadwal pelajaran besok, *${displayTanggal}*:
+
+${barisPelajaran}
+
+Jangan lupa siapkan buku dan tugasnya ya. Semangat! ðŸ’ªðŸ“š`
+
+    // Kirim ke SEMUA grup yang terdaftar di database
+    const semuaGrup = Object.keys(db.groups)
+
+    for (const idGrup of semuaGrup) {
+      try {
+        await naze.sendMessage(idGrup, { text: pesan1 })
+        await new Promise(r => setTimeout(r, 1200)) // jeda natural
+        await naze.sendMessage(idGrup, { text: pesan2 })
+        console.log(`[JadwalReminder] Terkirim ke grup: ${idGrup}`)
+      } catch (err) {
+        console.error(`[JadwalReminder] Gagal kirim ke ${idGrup}:`, err.message)
+      }
+    }
+
+  } catch (err) {
+    console.error('[JadwalReminder] Error:', err)
+  }
+}, {
+  scheduled: true,
+  timezone: timezone  // pakai timezone dari settings.js (sudah global)
+})
+
+// â”€â”€ AKHIR PATCH JADWAL REMINDER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default naze;
