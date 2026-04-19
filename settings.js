@@ -39,7 +39,6 @@ global.my = {
 	gh: 'https://github.com/kanawangyy-yoikage',
 	gc: 'https://chat.whatsapp.com/L2pWVamUYvwKGjvb4AgLM5?mode=hqrt2',
 	ch: '120363418201451442@newsletter',
-',
 }
 
 global.limit = {
