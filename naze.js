@@ -99,6 +99,56 @@ function _formatTglJadwal(d) {
 global._nazeSocketJadwal = global._nazeSocketJadwal || null
 
 function _jadwalReminderLoop() {
+
+// ================================================================
+//  JADWAL PELAJARAN X TJKT 5 - SMK NEGERI 1 KEDUNGWUNI 2025/2026
+// ================================================================
+const _jadwalPelajaran = {
+  senin: [
+    { waktu: '09.30 - 10.30', mapel: 'Bahasa Indonesia',                              guru: 'Fairuzabadi, S.Pd' },
+    { waktu: '10.30 - 11.30', mapel: 'Matematika',                                    guru: 'Zam Zami, S.Pd' },
+    { waktu: '11.30 - 12.00', mapel: 'Bahasa Jawa',                                   guru: 'Eka Sri Ndayanti, S.Pd' },
+    { waktu: '13.00 - 13.30', mapel: 'Bimbingan Konseling',                           guru: 'Lintining Tias, S.Pd' },
+    { waktu: '13.30 - 15.00', mapel: 'Mapil (Koding & Kecerdasan Artifisial)',        guru: 'Nor Amalia, S.Pd' },
+  ],
+  selasa: [
+    { waktu: '08.00 - 11.00', mapel: 'Dasar-Dasar Teknik Jaringan Komputer & Telekomunikasi', guru: 'Miftakhodin, S.Kom' },
+    { waktu: '12.30 - 15.00', mapel: 'Dasar-Dasar Teknik Jaringan Komputer & Telekomunikasi', guru: 'Feriz Hidayatullah, S.Pd' },
+  ],
+  rabu: [
+    { waktu: '08.00 - 09.00', mapel: 'Bahasa Inggris',                                guru: 'Gita Rianawati, S.Pd' },
+    { waktu: '09.30 - 11.00', mapel: 'Pendidikan Jasmani Olahraga & Kesehatan',       guru: 'Susilo, S.Pd' },
+    { waktu: '11.00 - 12.00', mapel: 'Matematika',                                    guru: 'Zam Zami, S.Pd' },
+    { waktu: '12.30 - 13.30', mapel: 'Seni Budaya',                                   guru: 'Andika Rizqi Rosida, S.Pd' },
+    { waktu: '13.30 - 15.00', mapel: 'Projek IPAS',                                   guru: 'Nur Fatwa, S.Pd' },
+  ],
+  kamis: [
+    { waktu: '08.00 - 09.00', mapel: 'Sejarah',                                       guru: 'Lidya Dwi Jayanti, S.Pd' },
+    { waktu: '09.30 - 10.30', mapel: 'Pendidikan Agama & Budi Pekerti',               guru: 'Abdul Mughni, S.Pd.I' },
+    { waktu: '10.30 - 11.30', mapel: 'Bahasa Indonesia',                              guru: 'Fairuzabadi, S.Pd' },
+    { waktu: '11.30 - 13.00', mapel: 'Pendidikan Pancasila/PPKN',                     guru: 'Dra. Veronika Sri Sumarsi' },
+    { waktu: '13.30 - 15.00', mapel: 'Informatika',                                   guru: 'Agung Eka Maulana, S.T' },
+  ],
+  jumat: [
+    { waktu: '07.00 - 09.00', mapel: 'Kokurikuler',                                   guru: '-' },
+    { waktu: '10.30 - 11.30', mapel: 'Projek IPAS',                                   guru: 'Nur Fatwa, S.Pd' },
+    { waktu: '13.00 - 15.30', mapel: 'Ekstra Wajib Pramuka',                          guru: '-' },
+  ],
+  sabtu:  [],
+  minggu: [],
+}
+const _namaHariJadwal = ['minggu','senin','selasa','rabu','kamis','jumat','sabtu']
+const _namaHariDJadwal = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']
+const _namaBulanJadwal = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
+function _formatTglJadwal(d) {
+  return `${_namaHariDJadwal[d.getDay()]}, ${d.getDate()} ${_namaBulanJadwal[d.getMonth()]} ${d.getFullYear()}`
+}
+
+// Pengingat jadwal jam 18:00 WIB setiap hari — kirim ke semua grup
+// Socket disimpan ke global._nazeSocketJadwal saat pertama kali handler dipanggil
+global._nazeSocketJadwal = global._nazeSocketJadwal || null
+
+function _jadwalReminderLoop() {
   const tz = global.timezone || 'Asia/Jakarta'
   const sekarang = moment.tz(tz)
   // Target jam 18:00 hari ini
@@ -126,10 +176,20 @@ function _jadwalReminderLoop() {
         const semuaGrup = Object.keys(global.db?.groups || {})
         for (const idGrup of semuaGrup) {
           try {
+            // Ambil daftar semua member grup untuk di-tag
+            let members = []
+            try {
+              const meta = await sock.groupMetadata(idGrup)
+              members = meta.participants.map(p => p.id)
+            } catch (_) {}
+            const tagSemua = members.map(id => `@${id.split('@')[0]}`).join(' ')
+            const pesan2Tag = pesan2 + (members.length > 0 ? `
+
+${tagSemua}` : '')
             await sock.sendMessage(idGrup, { text: pesan1 })
             await new Promise(r => setTimeout(r, 1200))
-            await sock.sendMessage(idGrup, { text: pesan2 })
-            console.log(`[JadwalReminder] Terkirim → ${idGrup}`)
+            await sock.sendMessage(idGrup, { text: pesan2Tag, mentions: members })
+            console.log(`[JadwalReminder] Terkirim → ${idGrup} (${members.length} member di-tag)`)
           } catch (err) {
             console.error(`[JadwalReminder] Gagal → ${idGrup}:`, err.message)
           }
