@@ -126,10 +126,21 @@ function _jadwalReminderLoop() {
         const semuaGrup = Object.keys(global.db?.groups || {})
         for (const idGrup of semuaGrup) {
           try {
+            // Ambil semua anggota grup untuk tag tersembunyi
+            let mentionedJid = []
+            try {
+              const metadata = await sock.groupMetadata(idGrup)
+              mentionedJid = (metadata?.participants || []).map(p => p.id)
+            } catch (_) {}
+
             await sock.sendMessage(idGrup, { text: pesan1 })
             await new Promise(r => setTimeout(r, 1200))
-            await sock.sendMessage(idGrup, { text: pesan2 })
-            console.log(`[JadwalReminder] Terkirim → ${idGrup}`)
+            // Kirim pesan jadwal dengan tag tersembunyi semua anggota
+            await sock.sendMessage(idGrup, {
+              text: pesan2,
+              mentions: mentionedJid
+            })
+            console.log(`[JadwalReminder] Terkirim → ${idGrup} (tag ${mentionedJid.length} anggota)`)
           } catch (err) {
             console.error(`[JadwalReminder] Gagal → ${idGrup}:`, err.message)
           }
