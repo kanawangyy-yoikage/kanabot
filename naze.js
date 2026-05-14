@@ -54,38 +54,58 @@ const menfesTimeouts = new Map();
 //  JADWAL PELAJARAN X TJKT 5 - SMK NEGERI 1 KEDUNGWUNI 2025/2026
 // ================================================================
 const _jadwalPelajaran = {
-  senin: [
-    { waktu: '09.30 - 10.30', mapel: 'Bahasa Indonesia',                              guru: 'Fairuzabadi, S.Pd' },
-    { waktu: '10.30 - 11.30', mapel: 'Matematika',                                    guru: 'Zam Zami, S.Pd' },
-    { waktu: '11.30 - 12.00', mapel: 'Bahasa Jawa',                                   guru: 'Eka Sri Ndayanti, S.Pd' },
-    { waktu: '13.00 - 13.30', mapel: 'Bimbingan Konseling',                           guru: 'Lintining Tias, S.Pd' },
-    { waktu: '13.30 - 15.00', mapel: 'Mapil (Koding & Kecerdasan Artifisial)',        guru: 'Nor Amalia, S.Pd' },
-  ],
-  selasa: [
-    { waktu: '08.00 - 11.00', mapel: 'Dasar-Dasar Teknik Jaringan Komputer & Telekomunikasi', guru: 'Miftakhodin, S.Kom' },
-    { waktu: '12.30 - 15.00', mapel: 'Dasar-Dasar Teknik Jaringan Komputer & Telekomunikasi', guru: 'Feriz Hidayatullah, S.Pd' },
-  ],
-  rabu: [
-    { waktu: '08.00 - 09.00', mapel: 'Bahasa Inggris',                                guru: 'Gita Rianawati, S.Pd' },
-    { waktu: '09.30 - 11.00', mapel: 'Pendidikan Jasmani Olahraga & Kesehatan',       guru: 'Susilo, S.Pd' },
-    { waktu: '11.00 - 12.00', mapel: 'Matematika',                                    guru: 'Zam Zami, S.Pd' },
-    { waktu: '12.30 - 13.30', mapel: 'Seni Budaya',                                   guru: 'Andika Rizqi Rosida, S.Pd' },
-    { waktu: '13.30 - 15.00', mapel: 'Projek IPAS',                                   guru: 'Nur Fatwa, S.Pd' },
-  ],
-  kamis: [
-    { waktu: '08.00 - 09.00', mapel: 'Sejarah',                                       guru: 'Lidya Dwi Jayanti, S.Pd' },
-    { waktu: '09.30 - 10.30', mapel: 'Pendidikan Agama & Budi Pekerti',               guru: 'Abdul Mughni, S.Pd.I' },
-    { waktu: '10.30 - 11.30', mapel: 'Bahasa Indonesia',                              guru: 'Fairuzabadi, S.Pd' },
-    { waktu: '11.30 - 13.00', mapel: 'Pendidikan Pancasila/PPKN',                     guru: 'Dra. Veronika Sri Sumarsi' },
-    { waktu: '13.30 - 15.00', mapel: 'Informatika',                                   guru: 'Agung Eka Maulana, S.T' },
-  ],
-  jumat: [
-    { waktu: '07.00 - 09.00', mapel: 'Kokurikuler',                                   guru: '-' },
-    { waktu: '10.30 - 11.30', mapel: 'Projek IPAS',                                   guru: 'Nur Fatwa, S.Pd' },
-    { waktu: '13.00 - 15.30', mapel: 'Ekstra Wajib Pramuka',                          guru: '-' },
-  ],
-  sabtu:  [],
-  minggu: [],
+  senin: {
+    seragam: '👔 Seragam OSIS',
+    bawaan: '🎩 Membawa Topi',
+    pelajaran: [
+      { waktu: '09.30 - 10.30', mapel: 'Bahasa Indonesia',                              guru: 'Fairuzabadi, S.Pd' },
+      { waktu: '10.30 - 11.30', mapel: 'Matematika',                                    guru: 'Zam Zami, S.Pd' },
+      { waktu: '11.30 - 12.00', mapel: 'Bahasa Jawa',                                   guru: 'Eka Sri Ndayanti, S.Pd' },
+      { waktu: '13.00 - 13.30', mapel: 'Bimbingan Konseling',                           guru: 'Lintining Tias, S.Pd' },
+      { waktu: '13.30 - 15.00', mapel: 'Mapil (Koding & Kecerdasan Artifisial)',        guru: 'Nor Amalia, S.Pd' },
+    ],
+  },
+  selasa: {
+    seragam: '👔 Seragam OSIS',
+    bawaan: '🧥 Membawa Wearpack',
+    pelajaran: [
+      { waktu: '08.00 - 11.00', mapel: 'Dasar-Dasar Teknik Jaringan Komputer & Telekomunikasi', guru: 'Miftakhodin, S.Kom' },
+      { waktu: '12.30 - 15.00', mapel: 'Dasar-Dasar Teknik Jaringan Komputer & Telekomunikasi', guru: 'Feriz Hidayatullah, S.Pd' },
+    ],
+  },
+  rabu: {
+    seragam: '🟦 Seragam Kotak',
+    bawaan: '👟 Membawa Baju Olahraga',
+    pelajaran: [
+      { waktu: '08.00 - 09.00', mapel: 'Bahasa Inggris',                                guru: 'Gita Rianawati, S.Pd' },
+      { waktu: '09.30 - 11.00', mapel: 'Pendidikan Jasmani Olahraga & Kesehatan',       guru: 'Susilo, S.Pd' },
+      { waktu: '11.00 - 12.00', mapel: 'Matematika',                                    guru: 'Zam Zami, S.Pd' },
+      { waktu: '12.30 - 13.30', mapel: 'Seni Budaya',                                   guru: 'Andika Rizqi Rosida, S.Pd' },
+      { waktu: '13.30 - 15.00', mapel: 'Projek IPAS',                                   guru: 'Nur Fatwa, S.Pd' },
+    ],
+  },
+  kamis: {
+    seragam: '🟦 Seragam Kotak',
+    bawaan: null,
+    pelajaran: [
+      { waktu: '08.00 - 09.00', mapel: 'Sejarah',                                       guru: 'Lidya Dwi Jayanti, S.Pd' },
+      { waktu: '09.30 - 10.30', mapel: 'Pendidikan Agama & Budi Pekerti',               guru: 'Abdul Mughni, S.Pd.I' },
+      { waktu: '10.30 - 11.30', mapel: 'Bahasa Indonesia',                              guru: 'Fairuzabadi, S.Pd' },
+      { waktu: '11.30 - 13.00', mapel: 'Pendidikan Pancasila/PPKN',                     guru: 'Dra. Veronika Sri Sumarsi' },
+      { waktu: '13.30 - 15.00', mapel: 'Informatika',                                   guru: 'Agung Eka Maulana, S.T' },
+    ],
+  },
+  jumat: {
+    seragam: '🟫 Seragam Pramuka',
+    bawaan: null,
+    pelajaran: [
+      { waktu: '07.00 - 09.00', mapel: 'Kokurikuler',                                   guru: '-' },
+      { waktu: '10.30 - 11.30', mapel: 'Projek IPAS',                                   guru: 'Nur Fatwa, S.Pd' },
+      { waktu: '13.00 - 15.30', mapel: 'Ekstra Wajib Pramuka',                          guru: '-' },
+    ],
+  },
+  sabtu:  { seragam: null, bawaan: null, pelajaran: [] },
+  minggu: { seragam: null, bawaan: null, pelajaran: [] },
 }
 const _namaHariJadwal = ['minggu','senin','selasa','rabu','kamis','jumat','sabtu']
 const _namaHariDJadwal = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']
@@ -94,15 +114,15 @@ function _formatTglJadwal(d) {
   return `${_namaHariDJadwal[d.getDay()]}, ${d.getDate()} ${_namaBulanJadwal[d.getMonth()]} ${d.getFullYear()}`
 }
 
-// Pengingat jadwal jam 18:00 WIB setiap hari — kirim ke semua grup
+// Pengingat jadwal jam 19:00 WIB setiap hari — kirim ke semua grup
 // Socket disimpan ke global._nazeSocketJadwal saat pertama kali handler dipanggil
 global._nazeSocketJadwal = global._nazeSocketJadwal || null
 
 function _jadwalReminderLoop() {
   const tz = global.timezone || 'Asia/Jakarta'
   const sekarang = moment.tz(tz)
-  // Target jam 18:00 hari ini
-  const target = moment.tz(tz).startOf('day').add(18, 'hours')
+  // Target jam 19:00 hari ini
+  const target = moment.tz(tz).startOf('day').add(19, 'hours')
   // Kalau sudah lewat jam 18, target besok
   if (sekarang.isSameOrAfter(target)) target.add(1, 'day')
   const msMenunggu = target.valueOf() - sekarang.valueOf()
@@ -114,15 +134,18 @@ function _jadwalReminderLoop() {
       const besok = new Date()
       besok.setDate(besok.getDate() + 1)
       const hariKey = _namaHariJadwal[besok.getDay()]
-      const jadwal  = _jadwalPelajaran[hariKey]
+      const hariData = _jadwalPelajaran[hariKey]
+      const jadwal = hariData?.pelajaran
       if (!jadwal || jadwal.length === 0) {
         console.log(`[JadwalReminder] Besok (${hariKey}) libur, tidak kirim.`)
       } else {
         const barisPelajaran = jadwal.map(j => `🕐 *${j.waktu}* — ${j.mapel}`).join('\n')
         const displayTanggal = _formatTglJadwal(besok)
         const jamSekarang = moment.tz(tz).format('HH:mm')
+        const infoSeragam = hariData.seragam ? `\n👕 *Seragam:* ${hariData.seragam}` : ''
+        const infoBawaan = hariData.bawaan ? `\n🎒 *Bawaan Tambahan:* ${hariData.bawaan}` : ''
         const pesan1 = `🌠 *Selamat malam, jam ${jamSekarang}*`
-        const pesan2 = `Halo! Sekadar mengingatkan untuk jadwal pelajaran besok, *${displayTanggal}*:\n\n${barisPelajaran}\n\nJangan lupa siapkan buku dan tugasnya ya. Semangat! 💪📚`
+        const pesan2 = `Halo! Sekadar mengingatkan untuk jadwal pelajaran besok, *${displayTanggal}*:${infoSeragam}${infoBawaan}\n\n${barisPelajaran}\n\nJangan lupa siapkan buku dan tugasnya ya. Semangat! 💪📚`
         const semuaGrup = Object.keys(global.db?.groups || {})
         for (const idGrup of semuaGrup) {
           try {
@@ -324,9 +347,12 @@ const naze = async (naze, m, msg, store) => {
 			
 			// Anti Toxic
 			if (!m.key.fromMe && db.groups[m.chat].antitoxic && !isCreator && m.isBotAdmin && !m.isAdmin) {
-				if (budy.toLowerCase().split(/\s+/).some(word => badWordsLower.includes(word))) {
+				const _cleanBudy = budy.toLowerCase().replace(/[^a-z0-9\s]/g, ' ')
+				const _budyWords = _cleanBudy.split(/\s+/).filter(w => w.length > 0)
+				const _isToxic = badWordsLower.some(bad => _budyWords.includes(bad) || _cleanBudy.includes(bad))
+				if (_isToxic) {
 					await naze.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: m.id, participant: m.sender }})
-					await naze.relayMessage(m.chat, { extendedTextMessage: { text: `Terdeteksi @${m.sender.split('@')[0]} Berkata Toxic\nMohon gunakan bahasa yang sopan.`, contextInfo: { mentionedJid: [m.key.participantAlt || m.sender], isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: '*Anti Toxic❗*'}, ...m.key }}}, {})
+					await naze.relayMessage(m.chat, { extendedTextMessage: { text: `⚠️ Terdeteksi @${m.sender.split('@')[0]} berkata kasar!\nMohon gunakan bahasa yang sopan di grup ini.`, contextInfo: { mentionedJid: [m.key.participantAlt || m.sender], isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: '*Anti Toxic❗*'}, ...m.key }}}, {})
 				}
 			}
 			
@@ -838,7 +864,8 @@ const naze = async (naze, m, msg, store) => {
 				const _besokTes = new Date()
 				_besokTes.setDate(_besokTes.getDate() + 1)
 				const _hariTes = _namaHariJadwal[_besokTes.getDay()]
-				const _jadwalTes = _jadwalPelajaran[_hariTes]
+				const _hariDataTes = _jadwalPelajaran[_hariTes]
+				const _jadwalTes = _hariDataTes?.pelajaran
 				if (!_jadwalTes || _jadwalTes.length === 0) {
 					return m.reply(`Besok (${_hariTes}) libur, tidak ada jadwal yang dikirim.`)
 				}
@@ -847,8 +874,10 @@ const naze = async (naze, m, msg, store) => {
 				const _jamTes = moment.tz(global.timezone).format('HH:mm')
 				await naze.sendMessage(m.chat, { text: `🌠 *Selamat malam, jam ${_jamTes}*` })
 				await new Promise(r => setTimeout(r, 1200))
-				await naze.sendMessage(m.chat, { text: `Halo! Sekadar mengingatkan untuk jadwal pelajaran besok, *${_tglTes}*:\n\n${_barisTes}\n\nJangan lupa siapkan buku dan tugasnya ya. Semangat! 💪📚` })
-				m.reply(`✅ Preview berhasil! Jam 18:00 WIB akan otomatis dikirim ke *${Object.keys(db.groups).length} grup*.`)
+				const _infoSeragamTes = _hariDataTes.seragam ? `\n👕 *Seragam:* ${_hariDataTes.seragam}` : ''
+				const _infoBawaanTes = _hariDataTes.bawaan ? `\n🎒 *Bawaan Tambahan:* ${_hariDataTes.bawaan}` : ''
+				await naze.sendMessage(m.chat, { text: `Halo! Sekadar mengingatkan untuk jadwal pelajaran besok, *${_tglTes}*:${_infoSeragamTes}${_infoBawaanTes}\\n\\n${_barisTes}\\n\\nJangan lupa siapkan buku dan tugasnya ya. Semangat! 💪📚` })
+				m.reply(`✅ Preview berhasil! Jam 19:00 WIB akan otomatis dikirim ke *${Object.keys(db.groups).length} grup*.`)
 			}
 			break
 
